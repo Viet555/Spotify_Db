@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="topnav">
+        <a class="active " href="/">Home</a>
+        <a href="/Create" >Create User </a>
+     
+      </div>
+    <div class="form-add-new">
+        <form action="/Edit-user" method="post">
+        <fieldset>
+            <legend >Form Edit User</legend>
+            <div class="input-group hidden-id">
+                <label >ID:</label>
+                <input type="text" name="UserId" value="<%=userEdit.id%>"/>
+            </div>
+        <div class="input-group">
+            <label >Mssv:</label>
+            <input type="text" name="Mssv" value="<%=userEdit.Mssv%>"/>
+        </div>
+        <div class="input-group">
+            <label>name:</label>
+            <input type="text" name="Myname" value="<%=userEdit.name%>"/>
+        </div>
+        <div class="input-group">
+            <label>score:</label>
+            <input type="text" name="score" value="<%=userEdit.score%>"/>
+        </div>
+        <div class="button-add-user">
+            <button class="button-add">save</button>
+        </div>
+       
+    </fieldset>
+</form>
+    </div>
+</body>
+</html>
