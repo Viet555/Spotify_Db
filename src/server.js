@@ -4,11 +4,11 @@ require('dotenv').config();
 const Router = require('./routes/api')
 const routerPass = require('./sevices/ResertPassword')
 const port = process.env.PORT || 8888;
-const hostname = process.env.HOST_NAME;
+const hostname = process.env.HOST_NAME || 'localhost';
 const cors = require('cors');
-// const configViewEngine = require('./config/viewEngine');
 const cookieParser = require('cookie-parser');
-
+const { initGridFS } = require('./config/Gridfs');
+const path = require('path');
 //config req.body => laasy len data
 // app.use(function (req, res, next) {
 //     res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
@@ -26,8 +26,9 @@ app.use(cors({
 
 
 app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({ limit: '50mb', extends: true }))
-
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
+// Cho FE truy cập thư mục uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser())
 // configViewEngine(app);
 
@@ -41,5 +42,5 @@ app.use((req, res) => {
     return res.send('404 not found')
 })
 app.listen(port, hostname, () => {
-    console.log(`example app listening on port ${port}`)
-})
+    console.log(`✅ Server running at http://${hostname}:${port}`);
+});

@@ -34,9 +34,9 @@ const CreateUserService = (dataUser) => {
                     password: hashPasswordUser,
                     email: dataUser.email,
                     roleId: roleId,
-                    image: dataUser.image,
+                    avatar: dataUser.avatar,
                     gender: dataUser.gender,
-                    address: dataUser.address,
+
                 })
                 resolve({
                     EC: 0,
@@ -54,8 +54,6 @@ const checkUserEmail = (Useremail) => {
     return new Promise(async (resolve, reject) => {
 
         try {
-
-
             let user = await connection.User.findOne(
                 { email: Useremail }
             )
@@ -108,13 +106,13 @@ const UserLogin = async (dataLog) => {
                         let userData = user.toObject();// chueyn sag plan obj
                         delete userData.password;
 
-                        let cart = await connection.Cart.findOne({ userId: user._id })
-                        if (cart) {
-                            userData.cart = cart
-                        }
-                        if (!cart) {
-                            userData.cart = {}
-                        }
+                        // let cart = await connection.Cart.findOne({ userId: user._id })
+                        // if (cart) {
+                        //     userData.cart = cart
+                        // }
+                        // if (!cart) {
+                        //     userData.cart = {}
+                        // }
                         let payload = ({
                             email: user.email,
                             role: user.roleId
@@ -253,11 +251,10 @@ const handleUpdateUser = (dataEdit) => {
             let updateData = {
                 firstName: dataEdit.firstName,
                 lastName: dataEdit.lastName,
-                address: dataEdit.address,
                 roleId: dataEdit.roleId,
                 gender: dataEdit.gender,
                 phoneNumber: dataEdit.phoneNumber,
-                image: dataEdit.avatar,
+                avatar: dataEdit.avatar,
             }
             if (dataEdit.currentPassword) {
                 //ss

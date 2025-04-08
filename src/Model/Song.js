@@ -7,6 +7,7 @@ const songSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId, ref: 'artist', require: true
         },
     ],
+    audio: { type: String, required: true },
     album: { type: mongoose.Schema.Types.ObjectId, ref: 'Albums', default: null },
     nameSong: { type: String, require: true },
     genre: [{ type: String }],                             // Thể loại (Pop, Ballad, EDM,...)

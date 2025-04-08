@@ -6,11 +6,11 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     gender: { type: String, },
     roleId: { type: String, },
-    image: { type: String, },
+    avatar: { type: String, },
     phoneNumber: { type: String, },
     playList: [{ type: String, }],
     isPodcaster: { type: Boolean, default: false },
-    libary: { type: mongoose.Schema.Types.ObjectId, ref: 'libary' },
+    library: { type: mongoose.Schema.Types.ObjectId, ref: 'library' },
     favoritesList: { type: mongoose.Schema.Types.ObjectId, ref: 'favoritesList' },
     isArtist: { type: Boolean, default: false }, // user này có phải nghệ sĩ k
     resetPasswordToken: { type: String, default: null },

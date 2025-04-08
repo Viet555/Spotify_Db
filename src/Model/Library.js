@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('./User');
 
-const LibarySchema = new mongoose.Schema({
+const LibrarySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true },
     favoriteSongId: { type: mongoose.Schema.Types.ObjectId, ref: 'FavoriteSong', require: true },
     playlist: [{
@@ -9,6 +9,6 @@ const LibarySchema = new mongoose.Schema({
     }],
 }, { timestamps: true });
 
-const Libary = mongoose.model('Libary', LibarySchema);
+const Library = mongoose.model('Library', LibrarySchema);
 
-module.exports = Libary 
+module.exports = Library 

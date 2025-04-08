@@ -4,6 +4,8 @@ const { CreateNewProduct, getProductBytype, deleteAproduct, updateProduct, getDa
     getAllBanner, Deletebanner, fetchAllProductByType } = require('../controllers/Admincontroller')
 
 const { authMiddleware, authorize } = require('../Middleware/JWTAction')
+const { CreateSong } = require('../controllers/SongController')
+const { getUpload } = require('../config/Gridfs')
 
 const Router = express.Router()
 //user
@@ -31,4 +33,27 @@ Router.get('/fetchAllProduct-byType', fetchAllProductByType)
 
 //ref Token
 Router.post('/refresh-token', handleRefreshToken)
+
+// API đọc file GridFS (MP3, ảnh)
+// Router.get('/files/:id', async (req, res) => {
+//     try {
+//         if (!db) return res.status(503).json({ error: 'DB chưa sẵn sàng' });
+
+//         const bucket = new mongoose.mongo.GridFSBucket(db, { bucketName: 'uploads' });
+//         const _id = new ObjectId(req.params.id);
+//         const files = await db.collection('uploads.files').findOne({ _id });
+
+//         if (!files) return res.status(404).json({ error: 'File not found' });
+
+//         res.set('Content-Type', files.contentType);
+//         bucket.openDownloadStream(_id).pipe(res);
+//     } catch (e) {
+//         console.error(e);
+//         res.status(500).json({ error: 'Cannot retrieve file' });
+//     }
+// });
+//const express = require('express');
+
+// Dùng upload.fields nếu upload nhiều file
+Router.post('/create-song', CreateSong);
 module.exports = Router
