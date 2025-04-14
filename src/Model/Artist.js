@@ -9,7 +9,7 @@ const ArtistSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId, ref: 'Albums'
         }
     ],
-    descriptionArtist: { type: String }
+    descriptionArtist: { type: String },
 }, { timestamps: true });
 
 const Artist = mongoose.model('Artist', ArtistSchema);

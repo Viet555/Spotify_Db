@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 const CreateUserService = (dataUser) => {
     return new Promise(async (resolve, reject) => {
-
         try {
             if (!dataUser.firstName || !dataUser.lastName || !dataUser.email || !dataUser.password) {
 
@@ -25,7 +24,7 @@ const CreateUserService = (dataUser) => {
             if (checkEmail == false) {
                 let roleId = ''
                 if (!dataUser.roleId) {
-                    roleId = 'User'
+                    dataUser.roleId = 'User'
                 }
                 let data = await connection.User.create({
 
@@ -33,7 +32,7 @@ const CreateUserService = (dataUser) => {
                     lastName: dataUser.lastName,
                     password: hashPasswordUser,
                     email: dataUser.email,
-                    roleId: roleId,
+                    roleId: dataUser.roleId,
                     avatar: dataUser.avatar,
                     gender: dataUser.gender,
 
@@ -41,7 +40,7 @@ const CreateUserService = (dataUser) => {
                 resolve({
                     EC: 0,
                     MES: 'CREATE SUCCESS',
-                    data
+
                 })
             }
         } catch (e) {
@@ -79,6 +78,7 @@ const hashUserPassword = (password) => {
         }
     })
 }
+
 const UserLogin = async (dataLog) => {
     return new Promise(async (resolve, reject) => {
 
@@ -124,8 +124,10 @@ const UserLogin = async (dataLog) => {
                         resolve({
                             EC: 0,
                             MES: ' Login Sucess',
-                            refreshToken: refreshToken,
-                            accessToken: token,
+                            payloadToken: {
+                                refreshToken: refreshToken,
+                                accessToken: token,
+                            },
                             data: userData,
 
                         })
@@ -158,61 +160,9 @@ const UserLogin = async (dataLog) => {
         }
     })
 }
-const handleGetAllUser = (id, limit, page) => {
-    return new Promise(async (resolve, reject) => {
 
-        try {
-            let totalUsers = await connection.User.countDocuments();
-            let totalPages = Math.ceil(totalUsers / limit);
-            let dataUsers = ''
-            if (id === 'ALL') {
-                let dataUsers = await connection.User.find()
-                    .skip((page - 1) * limit) // Bỏ qua user của trang trước
-                    .limit(limit)
-                    .select('-password');
-
-                resolve({
-                    EC: 0,
-                    MES: 'fetch All Success',
-                    data: dataUsers,
-                    totalPages: totalPages, // Số trang tổng cộng
-                    currentPage: page // Trang hiện tại
-                }
-                )
-            }
-            if (id && id !== 'ALL') {
-                let dataUsers = await connection.User.findOne(
-                    { _id: id }
-                ).select('-password')
-                if (dataUsers) {
-                    resolve({
-                        EC: 0,
-                        MES: 'fetch User Success',
-                        data: dataUsers
-                    }
-                    )
-                }
-                else {
-                    resolve({
-                        EC: -1,
-                        MES: 'USER NOT FOUND !'
-                    })
-                }
-            }
-            // resolve({
-            //     Ec: 0,
-            //     MES: 'Fetch All User SS',
-            //     data: dataUsers
-            // })
-        } catch (e) {
-            reject(e)
-        }
-    })
-}
 const handleDeleteUser = (UserId) => {
-
     return new Promise(async (resolve, reject) => {
-
         try {
             if (!UserId) {
                 resolve({
@@ -238,7 +188,7 @@ const handleUpdateUser = (dataEdit) => {
             if (!dataEdit._id) {
                 resolve({
                     EC: -1,
-                    MES: 'Missing Input Id '
+                    MES: 'Missing Input Id'
                 })
             }
             const user = await connection.User.findById(dataEdit._id);
@@ -251,10 +201,11 @@ const handleUpdateUser = (dataEdit) => {
             let updateData = {
                 firstName: dataEdit.firstName,
                 lastName: dataEdit.lastName,
+                // password: hashPasswordUser,
+                email: dataEdit.email,
                 roleId: dataEdit.roleId,
-                gender: dataEdit.gender,
-                phoneNumber: dataEdit.phoneNumber,
                 avatar: dataEdit.avatar,
+                gender: dataEdit.gender,
             }
             if (dataEdit.currentPassword) {
                 //ss
@@ -291,5 +242,22 @@ const handleUpdateUser = (dataEdit) => {
     })
 }
 
+const getSelectArtistService = async () => {
+    try {
+        let data = await connection.Artist.find({}, '_id nameArtist')
+        return ({
+            EC: 0,
+            MES: 'fetching select opton success',
+            data
+        })
+    } catch (e) {
+        console.log(e)
+        return {
+            EC: 1,
+            MES: 'Error while fetching artists',
+            data: []
+        };
 
-module.exports = { CreateUserService, UserLogin, handleGetAllUser, handleDeleteUser, handleUpdateUser, }
+    }
+}
+module.exports = { CreateUserService, UserLogin, handleDeleteUser, handleUpdateUser, getSelectArtistService }

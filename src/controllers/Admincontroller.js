@@ -1,143 +1,75 @@
-const { handleCreateProduct, handleGetAlldata, handleDeleteProduct, handleUpdateProduct, handleGetDataTypes,
-    handleGetAlldataPagiNate, handleCreateBanner, handleUpdateBanner, fetchAllBanner, handleDeleteBanner, handleFetchAllProduct } = require("../sevices/AdminService")
+const { handleGetAllUserPage, CreateArtistService, getAllArtistService, updateArtistService, DeleteArtistService } = require("../sevices/AdminService")
 
+const getAllUser = async (req, res) => {
+    let limit = req.query.limit
+    let page = req.query.page
 
-const CreateNewProduct = async (req, res) => {
+    if (!limit) limit = '6'
+
     try {
-        let data = await handleCreateProduct(req.body)
+
+        let data = await handleGetAllUserPage(limit, page)
+        return res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        return res.status(400).json({
+            EC: 1,
+            MES: 'ERR FROM SV'
+        })
+    }
+}
+const handleCreateArtist = async (req, res) => {
+    try {
+        let data = await CreateArtistService(req.body)
+        res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({
+            EC: -1,
+            MES: 'err from sv'
+        })
+    }
+}
+const getAllArtist = async (req, res) => {
+    let limit = req.query.limit
+    let page = req.query.page
+    try {
+        if (!limit) limit = '6'
+        let dataArtist = await getAllArtistService(limit, page)
+        res.status(200).json(dataArtist)
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({
+            EC: -1,
+            MES: 'err from sv'
+        })
+    }
+}
+const UpdateArtist = async (req, res) => {
+    try {
+
+        let data = await updateArtistService(req.body)
         return res.status(200).json(data)
     } catch (e) {
         console.log(e)
         return res.status(200).json({
             EC: -1,
-            MES: ' ERR Form Sever'
+            MES: 'ERR FROM SV'
         })
     }
 }
-const getProductBytype = async (req, res) => {
+const deleteArtist = async (req, res) => {
+    let artistId = req.query.id
     try {
-        type = req.query.type
-        limit = req.query.limit
-        page = req.query.page
-        if (!limit) limit = '6'
 
-        let dataGet = await handleGetAlldataPagiNate(type, limit, page)
-        return res.status(200).json(dataGet)
-    } catch (e) {
-        console.log(e)
-        return res.status(200).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-    }
-}
-const deleteAproduct = async (req, res) => {
-    let id = req.query.id
-    try {
-        let response = await handleDeleteProduct(id)
-        return res.status(200).json(response)
-    } catch (e) {
-        console.log(e)
-        return res.status(200).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-    }
-}
-const updateProduct = async (req, res) => {
-    try {
-        let dataRes = await handleUpdateProduct(req.body)
-        return res.status(200).json(dataRes)
-    } catch (e) {
-        console.log(e)
-        return res.status(200).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-    }
-}
-const getDataType = async (req, res) => {
-    try {
-        let type = await handleGetDataTypes()
-        return res.status(200).json(type)
-    } catch (e) {
-        console.log(e)
-        return res.status(200).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-
-    }
-}
-const createBanner = async (req, res) => {
-    try {
-        let response = await handleCreateBanner(req.body)
-        return res.status(200).json(response)
-    } catch (e) {
-        console.log(e)
-        return res.status(400).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-
-    }
-}
-const updateBanner = async (req, res) => {
-    try {
-        // let action = req.query.action
-        let dataUp = await handleUpdateBanner(req.body)
-        return res.status(200).json(dataUp)
-    } catch (e) {
-        console.log(e)
-        return res.status(400).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-    }
-}
-const getAllBanner = async (req, res) => {
-    try {
-        action = req.query.action
-        limit = req.query.limit
-
-        let Banner = await fetchAllBanner(action, limit)
-        return res.status(200).json(Banner)
-    } catch (e) {
-        console.log(e)
-        return res.status(400).json({
-            EC: 1,
-            MEs: 'err from sv'
-        })
-    }
-}
-const Deletebanner = async (req, res) => {
-    try {
-        let id = req.query.id
-        let data = await handleDeleteBanner(id)
+        let data = await DeleteArtistService(artistId)
         return res.status(200).json(data)
     } catch (e) {
         console.log(e)
-        return res.status(400).json({
-            EC: 1,
-            MES: 'err from sv'
+        return res.status(200).json({
+            EC: -1,
+            MES: 'ERR FROM SV'
         })
     }
 }
-const fetchAllProductByType = async (req, res) => {
-    try {
-        type = req.query.type
-        limit = req.query.limit
-        let data = await handleFetchAllProduct(type, limit)
-        return res.status(200).json(data)
-    } catch (e) {
-        console.log(e)
-        return res.status(400).json({
-            EC: 1,
-            MES: 'err from sv'
-        })
-    }
-}
-module.exports = {
-    CreateNewProduct, getProductBytype, deleteAproduct, updateProduct, getDataType, createBanner, updateBanner, getAllBanner,
-    Deletebanner, Deletebanner, fetchAllProductByType
-}
+module.exports = { getAllUser, handleCreateArtist, getAllArtist, UpdateArtist, deleteArtist }
