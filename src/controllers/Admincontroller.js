@@ -1,4 +1,4 @@
-const { handleGetAllUserPage, CreateArtistService, getAllArtistService, updateArtistService, DeleteArtistService } = require("../sevices/AdminService")
+const { handleGetAllUserPage, CreateArtistService, getAllArtistService, updateArtistService, DeleteArtistService, } = require("../sevices/AdminService")
 
 const getAllUser = async (req, res) => {
     let limit = req.query.limit
@@ -72,4 +72,5 @@ const deleteArtist = async (req, res) => {
         })
     }
 }
-module.exports = { getAllUser, handleCreateArtist, getAllArtist, UpdateArtist, deleteArtist }
+
+module.exports = { getAllUser, handleCreateArtist, getAllArtist, UpdateArtist, deleteArtist, }

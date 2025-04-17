@@ -77,4 +77,5 @@ const getSelectArtist = async (req, res) => {
         })
     }
 }
-module.exports = { CreateUser, handleLogin, deleteUser, UpdateUser, handleRefreshToken, getSelectArtist }
+
+module.exports = { CreateUser, handleLogin, deleteUser, UpdateUser, handleRefreshToken, getSelectArtist, }

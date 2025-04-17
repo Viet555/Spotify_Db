@@ -165,4 +165,5 @@ const DeleteArtistService = async (artistId) => {
         console.log(e)
     }
 }
-module.exports = { handleGetAllUserPage, CreateArtistService, getAllArtistService, updateArtistService, DeleteArtistService }
+
+module.exports = { handleGetAllUserPage, CreateArtistService, getAllArtistService, updateArtistService, DeleteArtistService, }

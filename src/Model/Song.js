@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 const songSchema = new mongoose.Schema({
-    image: { type: String, require: true },
+    image: { type: String, required: true },
     artist: [
         {
-            type: mongoose.Schema.Types.ObjectId, ref: 'artist', require: true
+            type: mongoose.Schema.Types.ObjectId, ref: 'Artist', require: true
         },
     ],
     audio: { type: String, required: true },
     album: { type: mongoose.Schema.Types.ObjectId, ref: 'Albums', default: null },
-    nameSong: { type: String, require: true },
-    genre: [{ type: String }],                             // Thể loại (Pop, Ballad, EDM,...)
+    nameSong: { type: String, required: true },
+    genre: [{ type: String }],
     view: { type: Number, default: 0 },
     releaseDate: { type: Date },                           // Ngày phát hành
     duration: { type: Number, },

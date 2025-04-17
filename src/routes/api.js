@@ -1,14 +1,13 @@
 const express = require('express')
-
-const { CreateNewProduct, getProductBytype, deleteAproduct, updateProduct, getDataType, createBanner, updateBanner,
-    getAllBanner, Deletebanner, fetchAllProductByType } = require('../controllers/delete1')
 const { authMiddleware, authorize } = require('../Middleware/JWTAction')
-const { CreateSong } = require('../controllers/SongController')
+
 const { getUpload } = require('../config/Gridfs')
 
 //** 
-const { getAllUser, handleCreateArtist, getAllArtist, UpdateArtist, deleteArtist } = require('../controllers/Admincontroller',)
-const { CreateUser, handleLogin, deleteUser, UpdateUser, handleRefreshToken, getSelectArtist } = require('../controllers/UserController')
+const { CreateSong, getAllsongs, updateASong, deleteSong } = require('../controllers/SongController')
+const { getAllUser, handleCreateArtist, getAllArtist, UpdateArtist, deleteArtist, } = require('../controllers/Admincontroller',)
+const { CreateUser, handleLogin, deleteUser, UpdateUser, handleRefreshToken, getSelectArtist, } = require('../controllers/UserController')
+const { createPlaylist, getAllPlaylist, updateAplaylist, deletePlaylist } = require('../controllers/PlaylistController')
 const Router = express.Router()
 //user
 Router.put('/api/UpdateUser', UpdateUser)
@@ -27,21 +26,16 @@ Router.get('/api/get-all-Artist', authMiddleware, authorize(['Admin']), getAllAr
 Router.put('/api/Update-a-Artist', authMiddleware, UpdateArtist)
 Router.delete('/api/delete-a-Artist', authMiddleware, authorize(['Admin']), deleteArtist)
 Router.get('/api/get-select-Artist', authMiddleware, getSelectArtist)
-//product
-Router.post('/api/Create-product', authMiddleware, authorize(['Admin']), CreateNewProduct)
-Router.get('/api/getAllproductByType', getProductBytype)
-Router.delete('/api/deleteAProduct', authMiddleware, authorize(['Admin']), deleteAproduct)
-Router.put('/api/Update-Product', authMiddleware, authorize(['Admin']), updateProduct)
-//banner
-Router.get('/api/Get-dataType-product', getDataType)
-Router.post('/api/Create-banner', authMiddleware, authorize(['Admin']), createBanner)
-Router.put('/api/update-banner', authMiddleware, authorize(['Admin']), updateBanner)
-Router.get('/api/fetch-all-banner', getAllBanner)
-Router.delete('/api/Delete-banner', authMiddleware, authorize(['Admin']), Deletebanner)
-
-Router.get('/fetchAllProduct-byType', fetchAllProductByType)
-
-
+//Songs
+Router.post('/api/create-song', CreateSong);
+Router.get('/api/get-all-Songs', authMiddleware, authorize(['Admin']), getAllsongs)
+Router.put('/api/update-a-song', authMiddleware, authorize(['Admin']), updateASong)
+Router.delete('/api/delete-a-song', authMiddleware, authorize(['Admin']), deleteSong)
+//playlist
+Router.post('/api/create-playlist', createPlaylist);
+Router.get('/api/get-all-playlist', authMiddleware, getAllPlaylist)
+Router.put('/api/update-a-playlist', authMiddleware, updateAplaylist)
+Router.delete('/api/delete-a-playlist', authMiddleware, deletePlaylist)
 
 // API đọc file GridFS (MP3, ảnh)
 // Router.get('/files/:id', async (req, res) => {
@@ -64,5 +58,5 @@ Router.get('/fetchAllProduct-byType', fetchAllProductByType)
 //const express = require('express');
 
 // Dùng upload.fields nếu upload nhiều file
-Router.post('/create-song', CreateSong);
+
 module.exports = Router
